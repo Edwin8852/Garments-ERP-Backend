@@ -18,6 +18,16 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Root route
+app.get('/', (req, res) => {
+    res.json({
+        status: 'online',
+        message: 'Garments ERP Backend API is running',
+        version: '3.0',
+        docs: '/api/ping'
+    });
+});
+
 // Health Check
 app.get('/api/ping', (req, res) => res.json({ message: 'Backend is online' }));
 
