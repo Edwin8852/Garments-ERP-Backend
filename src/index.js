@@ -35,11 +35,16 @@ app.use('/api/notifications', require('./routes/notification.routes'));
 
 const PORT = process.env.PORT || 5000;
 
-sequelize.sync({ alter: true }).then(() => {
-    console.log('Database synced');
-    app.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`);
-    });
-}).catch(err => {
-    console.error('Unable to sync database:', err);
+// Start server immediately so Render detects the open port
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
+
+// Sync DB after server is up
+sequelize.sync({ alter: true })
+    .then(() => {
+        console.log('Database synced successfully');
+    })
+    .catch(err => {
+        console.error('Unable to sync database:', err.message);
+    });
