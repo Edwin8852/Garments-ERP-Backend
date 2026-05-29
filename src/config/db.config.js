@@ -3,9 +3,11 @@ require('dotenv').config();
 
 let sequelize;
 
-if (process.env.DATABASE_URL) {
+const DB_URL = process.env.DATABASE_URL || 'postgresql://garment_erp_2ef7_user:NfqLcu4AOlqcmPuRvBVkjGWBecBgBWzG@dpg-d8chpgurnols739l5f50-a.oregon-postgres.render.com/garment_erp_2ef7';
+
+if (DB_URL) {
     // Render / production: use the single connection string
-    sequelize = new Sequelize(process.env.DATABASE_URL, {
+    sequelize = new Sequelize(DB_URL, {
         dialect: 'postgres',
         logging: false,
         dialectOptions: {
@@ -22,6 +24,7 @@ if (process.env.DATABASE_URL) {
         }
     });
 } else {
+
     // Local development: use individual env vars
     sequelize = new Sequelize(
         process.env.DB_NAME,
